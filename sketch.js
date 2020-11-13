@@ -1,44 +1,36 @@
-var fixedRect, movingRect;
-var o1
-var o2
-var o3
-var o4
+const Engine = Matter.Engine;
+const World= Matter.World;
+const Bodies = Matter.Bodies;
 
+var engine,world,object,ball
 function setup() {
-  createCanvas(1200,800);
-  fixedRect = createSprite(400, 100, 50, 80);
-  fixedRect.shapeColor = "green";
-  //fixedRect.debug = true;
-  movingRect = createSprite(400, 800,80,30);
-  movingRect.shapeColor = "green";
- // movingRect.debug = true;
-  o1=createSprite(100,100,50,50)
-  o1.shapeColor="green"
-  o2=createSprite(200,100,50,50)
-  o2.shapeColor="green"
-  o3=createSprite(300,100,50,50)
-  o3.shapeColor="green"
-  o4=createSprite(400,100,50,50)
-  o4.shapeColor="green"
+  var canvas = createCanvas(400,400);
+  engine = Engine.create();
+  world = engine.world;
+
+  var object_options={
+    isStatic:true
+  }
+  
+object=Bodies.rectangle(200,390,100,20,object_options);
+World.add(world,object);
 
 
+var ball_options ={ restitution: 1.0 } 
+ball = Bodies.circle(100,100,20, ball_options); 
+World.add(world,ball);
+
+console.log(object.position.x)
  
 }
 
 function draw() {
-  background(0,0,0);  
-  movingRect.x=World.mouseX
-  movingRect.y=World.mouseY
+  background(0); 
+  Engine.update(engine);
+  rectMode(CENTER)
+  rect(object.position.x,object.position.y,400,20)
+  ellipseMode(CENTER); 
+  ellipse(ball.position.x, ball.position.y, 20, 20);
 
- if(isTouching (movingRect,o2)){
-   movingRect.shapeColor="blue"
-   o2.shapeColor="blue"
-
-
- }
- else{
-   movingRect.shapeColor="green"
-   o2.shapeColor="green"
- }
   drawSprites();
 }
